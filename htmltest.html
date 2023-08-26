@@ -1,0 +1,44 @@
+@page
+@model CommunicationModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Communication Example</title>
+    <style>
+        /* Fügen Sie hier Ihren CSS-Stil hinzu */
+    </style>
+</head>
+<body>
+    <h1>Kommunikationsbeispiel</h1>
+
+    <form id="receiveForm">
+        <label for="receivedMessage">Empfangene Nachricht:</label>
+        <input type="text" id="receivedMessage" name="receivedMessage" value="@Model.ReceivedMessage" readonly>
+    </form>
+
+    <form id="sendForm">
+        <label for="sendMessage">Zu sendende Nachricht:</label>
+        <input type="text" id="sendMessage" name="sendMessage" value="@Model.SendMessage">
+        <button id="sendButton" type="button">Senden</button>
+    </form>
+
+    <script>
+        document.getElementById("sendButton").addEventListener("click", async function () {
+            const sendMessage = document.getElementById("sendMessage").value;
+            const response = await fetch("/Communication?handler=SendMessage", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ message: sendMessage })
+            });
+
+            const result = await response.text();
+            console.log(result);
+        });
+
+        // Sie können hier JS hinzufügen, um die empfangene Nachricht abzurufen.
+
+    </script>
+</body>
+</html>
